@@ -1,0 +1,41 @@
+{
+  "name": "phpbb-messenger-chat",
+  "version": "0.0.1",
+  "description": "javascript core for phpbb messenger extension",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "watchify -o dist/chat.js -v -d src/app.js",
+    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > dist/chat.min.js",
+    "test": "jest"
+  },
+  "author": "Florin Pavel",
+  "license": "GPL-2.0",
+  "dependencies": {
+    "classnames": "^2.1.5",
+    "flux": "^2.1.1",
+    "jquery": "^2.1.4",
+    "keymirror": "^0.1.1",
+    "object-assign": "^4.0.1",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0",
+    "react-dropzone": "^2.2.1",
+    "superagent": "^1.4.0"
+  },
+  "devDependencies": {
+    "browserify": "^6.2.0",
+    "envify": "^3.0.0",
+    "jest-cli": "^0.4.3",
+    "reactify": "^0.15.2",
+    "uglify-js": "~2.4.15",
+    "watchify": "^2.1.1"
+  },
+  "browserify": {
+    "transform": [
+      "reactify",
+      "envify"
+    ]
+  },
+  "jest": {
+    "rootDir": "./src"
+  }
+}
