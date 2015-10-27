@@ -85,9 +85,10 @@ var EmoticonsBody = React.createClass({
   },
 
   render: function() {
+    var self = this;
     var emoticons = this.state.emoticons.map(function(emoticon) {
       return(
-        <a href="#" key={emoticon.code} data-code={emoticon.code} alt={emoticon.code} title={emoticon.code} className="emoticon" dangerouslySetInnerHTML={{ __html: emoticon.image }}></a>
+        <a href="#" key={emoticon.code} data-code={emoticon.code} alt={emoticon.code} title={emoticon.code} className="emoticon" onClick={function(event){console.log('test')}} dangerouslySetInnerHTML={{ __html: emoticon.image }}></a>
       );
     });
     return(
@@ -102,6 +103,10 @@ var EmoticonsBody = React.createClass({
    */
   _onChange: function() {
     this.setState({emoticons: EmoticonsStore.getAllEmoticons()});
+  },
+
+  _onClick: function(event) {
+    console.log(event.target);
   }
 
 });
