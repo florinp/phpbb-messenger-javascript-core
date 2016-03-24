@@ -20,7 +20,7 @@ var CloseBtn = React.createClass({
 
   render: function() {
     return (
-      <div className="close" onClick={this._onClick}>x</div>
+      <div className="close" onClick={this._onClick}></div>
     );
   },
 
@@ -41,14 +41,15 @@ var MessageComposer = React.createClass({
 
   render: function() {
     return(
-      <div className="msg_input_holder">
+      <div className="msg_footer">
         <textarea
-          className="msg_input"
+          className="msg-input"
           placeholder="Type a message"
           value={this.state.text}
           onChange={this._onChange}
           onKeyDown={this._onKeyDown}
         />
+        <div className="msg-send" onClick={this._onClick}></div>
       </div>
     );
   },
@@ -66,6 +67,14 @@ var MessageComposer = React.createClass({
       }
       this.setState({text: ''});
     }
+  },
+
+  _onClick: function(event) {
+      var text = this.state.text.trim();
+      if(text) {
+          ChatActions.sendMessage(text, this.props.friendId);
+      }
+      this.setState({text: ''});
   }
 
 });
@@ -163,13 +172,13 @@ var ChatBox = React.createClass({
         className="msg_box"
         style={{right: 290 * this.props.count + 'px'}}
       >
-        <div className="msg_head" onClick={this._show}>{friend.username} <CloseBtn friend={friend} /></div>
-        {messagesBody}
-        {dropzone}
-        <div className="msg_footer" style={{paddingBottom: (this.state.show == true ? 25 : 0) + 'px'}}>
-          {messageComposer}
-          {messageOptions}
+        <div className="msg_head" onClick={this._show}>
+          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/elastic-man.png" alt="" className="user-avatar"></img>
+          <div className="user-name">{friend.username}</div>
+          <CloseBtn friend={friend} />
         </div>
+        {messagesBody}
+        {messageComposer}
       </div>
     );
   },

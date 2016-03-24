@@ -1,0 +1,403 @@
+$blue: #2196F3;
+$dingy: #495B6A;
+$white: #ffffff;
+$purple: #673AB7;
+$yellow: #FFEB3B;
+$red: #F44336;
+$orange: #FF5722;
+$green: #049f0d;
+$black: #333333;
+
+$chatIndex: 1000;
+
+$chatHeaderHeight: 32px;
+$msgHeaderHeight: 3rem;
+$msgHeight: 54px;
+
+$openSans: 'Open Sans', Helvetica, Arial, sans-serif;
+$transTime: 200ms;
+
+$trans: 0.3s ease;
+
+@font-face {
+  font-family: "chat-icons";
+  src:url("../fonts/chat-icons.eot");
+  src:url("../fonts/chat-icons.eot?#iefix") format("embedded-opentype"),
+  url("../fonts/chat-icons.woff") format("woff"),
+  url("../fonts/chat-icons.ttf") format("truetype"),
+  url("../fonts/chat-icons.svg#chat-icons") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+.icon {
+  font-family: "chat-icons" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.status {
+  height: $chatHeaderHeight/1.5;
+  width: $chatHeaderHeight/1.5;
+  border-radius: 50%;
+}
+
+.chat_box {
+  position: fixed;
+  right: 20px;
+  bottom: 0;
+  width: 250px;
+  background-color: #fff;
+  box-shadow: 0px 3px 3px 0px rgba(50, 50, 50, 0.5);
+  z-index: $chatIndex;
+
+  .chat_head {
+    height: $chatHeaderHeight;
+    padding: 5px 0px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+
+    background-color: $orange;
+    border-bottom: 3px solid darken($orange, 10%);
+    color: $white;
+
+    -webkit-box-shadow: 0px 3px 3px 0px rgba(50, 50, 50, 0.1);
+    -moz-box-shadow: 0px 3px 3px 0px rgba(50, 50, 50, 0.1);
+    box-shadow: 0px 3px 3px 0px rgba(50, 50, 50, 0.1);
+
+    .title {
+      float: left;
+      height: $chatHeaderHeight;
+      margin-left: 25px;
+      position: relative;
+
+      line-height: $chatHeaderHeight;
+      font-size: 1.35em;
+      text-align: center;
+      color: inherit;
+      transition: $trans;
+    }
+
+    .options {
+      @extend .icon;
+
+      height: 32px;
+      width: 32px;
+      background-size: contain;
+      position: absolute;
+      right: 0;
+      font-size: 3em;
+      padding: 3px;
+
+      &:hover {
+        cursor: pointer;
+      }
+      &:before {
+        content: "\e001";
+      }
+    }
+
+    transition: $trans;
+  }
+}
+
+.chat_body {
+  overflow: scroll;
+  height: 100%;
+  height: 400px;
+  background: darken($white, 5%);
+
+  padding-top: 0.6rem;
+
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+
+  &::-webkit-scrollbar {
+    width: 0 !important;
+  }
+
+  .user {
+    position: relative;
+    width: 100%;
+    height: 3rem;
+    padding-left: 0.7rem;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    .user-avatar {
+      border-radius: 50%;
+      margin-right: 0.6rem;
+    }
+
+    .user-name {
+      font-size: 1rem;
+      font-family: $openSans;
+    }
+
+    .user-status {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.8rem;
+      width: 8px;
+      height: 8px;
+      border: 2px solid $green;
+      border-radius: 50%;
+      opacity: 0;
+
+      &.online {
+        opacity: 1;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    transition: $trans;
+  }
+  .search {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: calc(100% - 0.7rem);
+    height: $chatHeaderHeight + 20;
+    padding-left: 0.7rem;
+    background: $white;
+    display: flex;
+    align-items: center;
+
+    .search-input {
+      border: 0;
+      outline: none;
+      height: $chatHeaderHeight;
+      font-size: 0.8rem;
+    }
+  }
+  transition: $trans;
+}
+
+.msg_box {
+  position: fixed;
+  bottom: -5px;
+  width: 250px;
+  //height: 520px;
+  background-color: #fff;
+  box-shadow: 0px 3px 3px 0px rgba(50, 50, 50, 0.5);
+  z-index: $chatIndex + 10;
+
+  .msg_head {
+    height: $msgHeaderHeight;
+    // padding: 5px 0px;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    padding-left: 0.7rem;
+
+    background-color: $blue;
+    border-bottom: 3px solid darken($blue, 10%);
+    color: $white;
+
+    display: flex;
+    align-items: center;
+
+    -webkit-box-shadow: 0px 3px 3px 0px rgba(50, 50, 50, 0.1);
+    -moz-box-shadow: 0px 3px 3px 0px rgba(50, 50, 50, 0.1);
+    box-shadow: 0px 3px 3px 0px rgba(50, 50, 50, 0.1);
+
+    .user-avatar {
+      border-radius: 50%;
+      margin-right: 0.6rem;
+    }
+    .user-name {
+      font-size: 1rem;
+      font-family: $openSans;
+      font-weight: 200;
+    }
+
+    .close {
+      @extend .icon;
+
+      position: absolute;
+      top: 1rem;
+      right: 0.3rem;
+      width: 32px;
+      height: 32px;
+      text-align: center;
+      font-size: 1.2rem;
+
+      &:hover {
+        cursor: pointer;
+      }
+      &:before {
+        content: "\e006";
+      }
+    }
+
+    transition: $trans;
+  }
+
+  .msg_wrap {
+    overflow: scroll;
+    height: 400px;
+    //padding-top: $chatHeaderHeight;
+    background: darken($white, 5%);
+
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+
+    &::-webkit-scrollbar {
+      width: 0 !important;
+    }
+
+    .msg_body {
+      padding: ($msgHeight - ($msgHeight/1.5)) / 2;
+      position: relative;
+      margin-bottom: $msgHeight/2;
+
+      .msg {
+        position: relative;
+        overflow: hidden;
+
+        width: 100%;
+        margin: (($msgHeight - ($msgHeight/1.5)) / 2) 0;
+        padding: (($msgHeight - ($msgHeight/1.5)) / 2) 0;
+
+        .circle-wrapper {
+          height: $msgHeight / 1.5;
+          width: $msgHeight / 1.5;
+          border-radius: 50%;
+        }
+
+        .text-wrapper {
+          padding: ($msgHeight - ($msgHeight/1.5)) / 2;
+          min-height: $msgHeight / 2;
+          width: 60%;
+          margin: 0 ($msgHeight - ($msgHeight/1.5)) / 2;
+          box-shadow: 0px 1px 0px 0px rgba(50, 50, 50, 0.3);
+          border-radius: 2px;
+          font-weight: 300;
+          position: relative;
+          /* word-break: break-all; */
+          // opacity: 1;
+
+          &:before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+          }
+        }
+
+        &.msg_b {
+          .circle-wrapper, .text-wrapper {
+            background: $dingy;
+            float: right;
+            color: $black;
+          }
+
+          .text-wrapper {
+            background: $white;
+
+            &:before {
+              border-width: 10px 10px 0 0;
+              border-color: $white transparent transparent transparent;
+              position: absolute;
+              top: 0;
+              right: -9px;
+            }
+          }
+        }
+        &.msg_a {
+          .circle-wrapper, .text-wrapper {
+            background: $blue;
+            float: left;
+            color: $black;
+          }
+
+          .text-wrapper {
+            &:before {
+              border-width: 0 10px 10px 0;
+              border-color: transparent $blue transparent transparent;
+              position: absolute;
+              top: 0;
+              left: -9px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .msg_footer {
+    width: 250px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: $msgHeight;
+    background: $white;
+
+    .msg-input {
+      height: $msgHeight;
+      background: $white;
+      border: none;
+      width: calc(100% - #{$msgHeight});
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding: 0 5%;
+      resize: none;
+      overflow: scroll;
+      padding-top: ($msgHeight/2) - 8;
+      font-weight: 300;
+      font-size: 12px;
+
+      &:focus {
+        outline: none;
+      }
+
+      -ms-overflow-style: none;
+      overflow: -moz-scrollbars-none;
+      //gotta hide windows scrollbars
+
+      &::-webkit-scrollbar {
+        width: 0 !important
+      }
+    }
+
+    .msg-send {
+      @extend .icon;
+      position: absolute;
+      height: $msgHeight / 1.5;
+      width: $msgHeight / 1.5;
+      border-radius: 50%;
+      border: 0;
+      background: $blue;
+      color: $black;
+      font-size: 20px;
+
+      bottom: ($msgHeight - ($msgHeight/1.5)) / 2;
+      right: ($msgHeight - ($msgHeight/1.5)) / 2;
+
+      &:before {
+        content: '\E005';
+        position: absolute;
+        top: 8px;
+        left: 5px;
+      }
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  transition: $trans;
+}

@@ -1,41 +1,40 @@
 {
-  "name": "phpbb-messenger-chat",
+  "name": "phpbb-messenger",
   "version": "0.0.1",
-  "description": "javascript core for phpbb messenger extension",
+  "description": "Javascript core for phpBB Messenger Extension",
   "main": "src/app.js",
   "scripts": {
-    "start": "watchify -o dist/chat.js -v -d src/app.js",
-    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > dist/chat.min.js",
-    "test": "jest"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/florinp/phpbb-messenger-javascript-core.git"
   },
   "author": "Florin Pavel",
   "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/florinp/phpbb-messenger-javascript-core/issues"
+  },
+  "homepage": "https://github.com/florinp/phpbb-messenger-javascript-core#readme",
   "dependencies": {
-    "classnames": "^2.1.5",
+    "classnames": "^2.2.3",
     "flux": "^2.1.1",
-    "jquery": "^2.1.4",
+    "jquery": "^2.2.2",
     "keymirror": "^0.1.1",
     "object-assign": "^4.0.1",
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0",
-    "react-dropzone": "^2.2.1",
-    "superagent": "^1.4.0"
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "react-dropzone": "^3.3.2",
+    "superagent": "^1.8.2"
   },
   "devDependencies": {
-    "browserify": "^6.2.0",
-    "envify": "^3.0.0",
-    "jest-cli": "^0.4.3",
-    "reactify": "^0.15.2",
-    "uglify-js": "~2.4.15",
-    "watchify": "^2.1.1"
-  },
-  "browserify": {
-    "transform": [
-      "reactify",
-      "envify"
-    ]
-  },
-  "jest": {
-    "rootDir": "./src"
+    "browserify": "^13.0.0",
+    "es6-promise": "^3.1.2",
+    "gulp": "^3.9.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-ruby-sass": "^2.0.6",
+    "gulp-uglify": "^1.5.3",
+    "reactify": "^1.1.1"
   }
 }

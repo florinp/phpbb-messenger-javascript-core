@@ -45,7 +45,10 @@ var ChatApp = React.createClass({
 
     return (
       <div className="chat_box">
-        <div className="chat_head" onClick={this._changeStatus}>Chat Box</div>
+        <div className="chat_head" onClick={this._changeStatus}>
+          <div className="title">Chat Box</div>
+          <div className="options"></div>
+        </div>
         {friendsSection}
         {chatBoxes}
       </div>

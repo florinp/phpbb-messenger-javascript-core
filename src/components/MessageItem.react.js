@@ -32,7 +32,10 @@ var MessageItem = React.createClass({
         'msg': true,
         'msg_a': message.type == 'inbox' ? true : false,
         'msg_b': message.type == 'sent' ? true : false
-      })} dangerouslySetInnerHTML={{__html: message.text}}></div>;
+      })}>
+        <div className="circle-wrapper"></div>
+        <div className="text-wrapper" dangerouslySetInnerHTML={{__html: message.text}}></div>
+      </div>;
     }
 
     return response;
