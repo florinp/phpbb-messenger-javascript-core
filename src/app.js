@@ -22,6 +22,7 @@ var showUploadZone = function() {
     zone.show();
   });
 };
+showUploadZone();
 
 var hideUploadZone = function() {
   var msgBody = $('.msg_body');

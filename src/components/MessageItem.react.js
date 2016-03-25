@@ -25,7 +25,8 @@ var MessageItem = React.createClass({
         'msg_a': message.type == 'inbox' ? true : false,
         'msg_b': message.type == 'sent' ? true : false
       })}>
-        {msg}: <a href={ routeName } target="_blank"><i className="fa fa-file-o"></i> {message.fileName}</a>
+        <div className="circle-wrapper"></div>
+        <div className="text-wrapper">{msg}: <a href={ routeName } target="_blank"><i className="fa fa-file-o"></i> {message.fileName}</a></div>
       </div>;
     } else if(message.text) {
       response = <div className={classNames({

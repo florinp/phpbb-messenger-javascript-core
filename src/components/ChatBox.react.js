@@ -1,4 +1,5 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var MessageStore = require('../stores/MessageStore');
 var ChatBoxStore = require('../stores/ChatBoxStore');
 var EmoticonsStore = require('../stores/EmoticonsStore');
@@ -171,6 +172,7 @@ var ChatBox = React.createClass({
       <div
         className="msg_box"
         style={{right: 290 * this.props.count + 'px'}}
+        ref="msgBox"
       >
         <div className="msg_head" onClick={this._show}>
           <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/elastic-man.png" alt="" className="user-avatar"></img>
@@ -178,6 +180,7 @@ var ChatBox = React.createClass({
           <CloseBtn friend={friend} />
         </div>
         {messagesBody}
+        {dropzone}
         {messageComposer}
       </div>
     );
@@ -205,7 +208,16 @@ var ChatBox = React.createClass({
       this.refs.dropzone.open();
   },
 
+  _scrollBottom: function() {
+    var msgBox = $(ReactDOM.findDOMNode(this.refs.msgBox));
+    var msgWrap = $(msgBox).find('.msg_wrap').first();
+    var msgBody = $(msgWrap).find('.msg_body').first();
+    $(msgWrap).scrollTop($(msgBody).height());
+  },
+
   _onDrop: function(files) {
+    var self = this;
+
     var hideUploadZone = function() {
       var msgBody = $('.msg_body');
       msgBody.each(function(){
@@ -224,6 +236,7 @@ var ChatBox = React.createClass({
     var req = request.post('./app.php/messenger/send_file');
     req.field('receiver_id', friend.id);
     files.forEach(function(file) {
+      console.log(file);
       req.attach('file', file, file.name);
     });
     req.end(function(err, res) {
@@ -233,6 +246,7 @@ var ChatBox = React.createClass({
       }
 
       hideUploadZone();
+      self._scrollBottom();
     });
   }
 

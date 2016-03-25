@@ -27,7 +27,6 @@ var MessagesBody = React.createClass({
 
   componentDidMount: function() {
     MessageStore.addChangeListener(this._onChange);
-    this._scrollToBottom();
     this._setInterval();
   },
 
@@ -56,11 +55,9 @@ var MessagesBody = React.createClass({
   },
 
   componentDidUpdate: function() {
-    this._scrollToBottom();
-  },
-
-  componentWillUpdate: function() {
-    this._scrollToBottom();
+    if(this.oldState && this.oldState.length != this.state.messages.length) {
+      this._scrollToBottom();
+    }
   },
 
   _setInterval: function() {
@@ -76,8 +73,15 @@ var MessagesBody = React.createClass({
   },
 
   _scrollToBottom: function() {
-    var msgBody = this.refs.messagesList.getDOMNode();
-    msgBody.scrollTop = msgBody.scrollHeight;
+    var msgBody = ReactDOM.findDOMNode(this.refs.messagesList);
+    var $msgBody = $(msgBody);
+    var $msgWrap = $msgBody.parent();
+    $($msgWrap).animate({
+      scrollTop: $($msgBody).height()
+    }, {
+      queue: false,
+      duration: 'ease'
+    });
   },
 
   /**
@@ -85,7 +89,9 @@ var MessagesBody = React.createClass({
    */
   _onChange: function() {
     var friend = this.props.friend;
+    this.oldState = this.state.messages;
     this.setState(getStateFromStores(friend.id));
+    //this._scrollToBottom();
   },
 
   _onDrag: function() {
