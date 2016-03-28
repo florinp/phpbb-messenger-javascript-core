@@ -31,7 +31,7 @@ $trans: 0.3s ease;
 
 }
 
-.icon {
+.chat-icon {
   font-family: "chat-icons" !important;
   content: attr(data-icon);
   font-style: normal !important;
@@ -86,7 +86,7 @@ $trans: 0.3s ease;
     }
 
     .options {
-      @extend .icon;
+      @extend .chat-icon;
 
       height: 32px;
       width: 32px;
@@ -139,7 +139,6 @@ $trans: 0.3s ease;
 
     .user-name {
       font-size: 1rem;
-      font-family: $openSans;
     }
 
     .user-status {
@@ -218,12 +217,11 @@ $trans: 0.3s ease;
     }
     .user-name {
       font-size: 1rem;
-      font-family: $openSans;
       font-weight: 200;
     }
 
     .close {
-      @extend .icon;
+      @extend .chat-icon;
 
       position: absolute;
       top: 1rem;
@@ -397,7 +395,7 @@ $trans: 0.3s ease;
     }
 
     .msg-send {
-      @extend .icon;
+      @extend .chat-icon;
       position: absolute;
       height: $msgHeight / 1.5;
       width: $msgHeight / 1.5;

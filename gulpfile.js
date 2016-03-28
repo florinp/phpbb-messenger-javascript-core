@@ -10,20 +10,20 @@ gulp.task('browserify', function() {
         .pipe(browserify({transform: 'reactify'}))
         .pipe(concat('chat.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('../styles/all/theme/js'))
+        .pipe(gulp.dest('../phpBB/ext/florinp/messenger/styles/all/theme/js'))
 });
 
 gulp.task('browserify-no-uglify', function() {
     gulp.src('src/app.js')
         .pipe(browserify({transform: 'reactify'}))
         .pipe(concat('chat.js'))
-        .pipe(gulp.dest('../styles/all/theme/js'))
+        .pipe(gulp.dest('../phpBB/ext/florinp/messenger/styles/all/theme/js'))
 });
 
 gulp.task('sass', function() {
     return sass('scss/chat.scss')
         .on('error', sass.logError)
-        .pipe(gulp.dest('../styles/all/theme/css'));
+        .pipe(gulp.dest('../phpBB/ext/florinp/messenger/styles/all/theme/css'));
 });
 
 gulp.task('watch-style', function() {
