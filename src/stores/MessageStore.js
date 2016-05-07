@@ -5,6 +5,8 @@ var assign = require('object-assign');
 
 var ActionTypes = ChatConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
+var RECEIVE_EVENT = 'receive';
+var SEND_EVENT = 'send';
 
 var _friendId = null;
 var _messages = {};
@@ -24,6 +26,14 @@ var MessageStore = assign({}, EventEmitter.prototype, {
     this.emit(CHANGE_EVENT);
   },
 
+  emitReceive: function() {
+    this.emit(RECEIVE_EVENT);
+  },
+
+  emitSend: function() {
+    this.emit(SEND_EVENT);
+  },
+
   /**
    * @param {function} callback
    */
@@ -33,6 +43,22 @@ var MessageStore = assign({}, EventEmitter.prototype, {
 
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
+  },
+
+  addReceiveListener: function(callback) {
+    this.on(RECEIVE_EVENT, callback);
+  },
+
+  removeReceiveListener: function(callback) {
+    this.removeListener(RECEIVE_EVENT, callback);
+  },
+
+  addSendListener: function(callback) {
+    this.on(SEND_EVENT, callback);
+  },
+
+  removeSendListener: function(callback) {
+    this.removeListener(SEND_EVENT, callback);
   },
 
   get: function(id) {
@@ -93,12 +119,14 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(function(action) {
     case ActionTypes.RECEIVE_RAW_MESSAGES:
       _addMessages(action.friendId, action.rawMessages);
       MessageStore.emitChange();
+      MessageStore.emitReceive();
       break;
     case ActionTypes.CREATE_MESSAGE:
       var message = action.rawMessage;
       var friendId = message.receiver_id;
       message.type = 'sent';
       _messages[friendId].push(message);
+      MessageStore.emitSend();
       MessageStore.emitChange();
       break;
     default:

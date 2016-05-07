@@ -13,7 +13,7 @@ gulp.task('browserify', function() {
         .pipe(gulp.dest('../phpBB/ext/florinp/messenger/styles/all/theme/js'))
 });
 
-gulp.task('browserify-no-uglify', function() {
+gulp.task('build-tmp', function() {
     gulp.src('src/app.js')
         .pipe(browserify({transform: 'reactify'}))
         .pipe(concat('chat.js'))
@@ -30,7 +30,7 @@ gulp.task('watch-style', function() {
     gulp.watch('scss/*.scss', ['sass']);
 });
 gulp.task('watch-src', function() {
-    gulp.watch('src/**/*.*', ['browserify-no-uglify']);
+    gulp.watch('src/**/*.*', ['build-tmp']);
 });
 
 gulp.task('watch', ['watch-src', 'watch-style']);

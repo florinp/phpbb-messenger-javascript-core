@@ -1,0 +1,15 @@
+# This file is for standardising the coding style between different editors
+# http://editorconfig.org/
+
+root = false
+
+[*]
+end_of_line = lf
+indent_size = 2
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+charset = utf-8
+
+[*.md]
+trim_trailing_whitespace = false

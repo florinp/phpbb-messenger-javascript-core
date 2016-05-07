@@ -21,8 +21,8 @@ $trans: 0.3s ease;
 
 @font-face {
   font-family: "chat-icons";
-  src:url("../fonts/chat-icons.eot");
-  src:url("../fonts/chat-icons.eot?#iefix") format("embedded-opentype"),
+  src: url("../fonts/chat-icons.eot");
+  src: url("../fonts/chat-icons.eot?#iefix") format("embedded-opentype"),
   url("../fonts/chat-icons.woff") format("woff"),
   url("../fonts/chat-icons.ttf") format("truetype"),
   url("../fonts/chat-icons.svg#chat-icons") format("svg");
@@ -42,6 +42,7 @@ $trans: 0.3s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .status {
   height: $chatHeaderHeight/1.5;
   width: $chatHeaderHeight/1.5;
@@ -135,6 +136,7 @@ $trans: 0.3s ease;
     .user-avatar {
       border-radius: 50%;
       margin-right: 0.6rem;
+      width: 32px;
     }
 
     .user-name {
@@ -193,7 +195,7 @@ $trans: 0.3s ease;
   z-index: $chatIndex + 10;
 
   .msg_head {
-    height: $msgHeaderHeight;
+    height: 2rem;
     // padding: 5px 0px;
     font-weight: bold;
     cursor: pointer;
@@ -214,9 +216,10 @@ $trans: 0.3s ease;
     .user-avatar {
       border-radius: 50%;
       margin-right: 0.6rem;
+      width: 32px;
     }
     .user-name {
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 200;
     }
 
@@ -224,12 +227,12 @@ $trans: 0.3s ease;
       @extend .chat-icon;
 
       position: absolute;
-      top: 1rem;
+      top: 0.5rem;
       right: 0.3rem;
       width: 32px;
       height: 32px;
       text-align: center;
-      font-size: 1.2rem;
+      font-size: 1rem;
 
       &:hover {
         cursor: pointer;
@@ -272,6 +275,11 @@ $trans: 0.3s ease;
           height: $msgHeight / 1.5;
           width: $msgHeight / 1.5;
           border-radius: 50%;
+
+          img {
+            width: 100%;
+            border-radius: 50%;
+          }
         }
 
         .text-wrapper {

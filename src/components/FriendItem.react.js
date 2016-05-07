@@ -1,5 +1,6 @@
 var React = require('react');
 var classNames = require('classnames');
+var $ = require('jquery');
 
 var ReactPropTypes = React.PropTypes;
 
@@ -11,22 +12,32 @@ var FriendItem = React.createClass({
     friend: ReactPropTypes.object,
   },
 
-  render: function() {
+  render: function () {
     var friend = this.props.friend;
-
+    var avatar = this.parseAvatar(friend);
     return (
       <div className="user" onClick={this._onClick}>
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/elastic-man.png" alt="" className="user-avatar"></img>
-        <span className="user-name" style={{color: '#' + (friend.userColor != '' ? friend.userColor : '000')}}>{friend.username}</span>
-        <span className={classNames({
-          'user-status': true,
-          'online': friend.userStatus == 1
-        })}></span>
+        <img src={avatar} alt="" className="user-avatar"/>
+          <span className="user-name"
+                style={{color: '#' + (friend.userColor != '' ? friend.userColor : '000')}}>{friend.username}</span>
+          <span className={classNames({
+            'user-status': true,
+            'online': friend.userStatus == 1
+          })}></span>
       </div>
     );
   },
 
-  _onClick: function() {
+  parseAvatar: function (friend) {
+    var src = './styles/prosilver/theme/images/no_avatar.gif';
+    if (friend.userAvatar != '') {
+      var avatarElement = $(friend.userAvatar);
+      src = avatarElement.attr('data-src').replace('./../../', './');
+    }
+    return src;
+  },
+
+  _onClick: function () {
     ChatActions.openBox(this.props.friend);
   }
 

@@ -18,7 +18,8 @@ var FriendStore = assign({}, EventEmitter.prototype, {
         id: friendID,
         username: friend.username,
         userColor: friend.user_colour,
-        userStatus: friend.user_status
+        userStatus: friend.user_status,
+		userAvatar: friend.user_avatar
       };
     }, this);
   },

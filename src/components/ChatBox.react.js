@@ -173,6 +173,9 @@ var ChatBox = React.createClass({
                 </div>
             </div>;
         }
+
+        var avatar = this.parseAvatar(friend);
+
         return (
             <div
                 className="msg_box"
@@ -180,9 +183,6 @@ var ChatBox = React.createClass({
                 ref="msgBox"
                 >
                 <div className="msg_head" onClick={this._show}>
-                    <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/elastic-man.png" alt=""
-                         className="user-avatar"></img>
-
                     <div className="user-name">{friend.username}</div>
                     <CloseBtn friend={friend}/>
                 </div>
@@ -191,6 +191,15 @@ var ChatBox = React.createClass({
                 {messageComposer}
             </div>
         );
+    },
+
+    parseAvatar: function(friend) {
+        var src = './styles/prosilver/theme/images/no_avatar.gif';
+        if(friend.userAvatar != '') {
+            var avatarElement = $(friend.userAvatar);
+            src = avatarElement.attr('data-src').replace('./../../', './');
+        }
+        return src;
     },
 
     /**
