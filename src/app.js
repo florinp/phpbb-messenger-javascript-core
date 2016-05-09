@@ -61,6 +61,7 @@ var f = function(e) {
 document.body.addEventListener('dragover', f, false);
 document.body.addEventListener('dragleave', f, false);
 
+
 ReactDOM.render(
   <ChatApp />,
   document.getElementById('chat')

@@ -21,7 +21,7 @@ var CloseBtn = React.createClass({
 
     render: function () {
         return (
-            <div className="close" onClick={this._onClick}></div>
+          <span className="close-msg" onClick={this._onClick}>&times;</span>
         );
     },
 
@@ -42,17 +42,14 @@ var MessageComposer = React.createClass({
 
     render: function () {
         return (
-            <div className="msg_footer">
-        <textarea
-            className="msg-input"
+          <input
+            type="text"
+            className="chat__input"
             placeholder="Type a message"
             value={this.state.text}
             onChange={this._onChange}
             onKeyDown={this._onKeyDown}
-            />
-
-                <div className="msg-send" onClick={this._onClick}></div>
-            </div>
+          />
         );
     },
 
@@ -174,22 +171,20 @@ var ChatBox = React.createClass({
             </div>;
         }
 
-        var avatar = this.parseAvatar(friend);
-
         return (
-            <div
-                className="msg_box"
-                style={{right: 290 * this.props.count + 'px'}}
+              <div
+                className="conversation"
+                style={{right: 455 * this.props.count + 'px'}}
                 ref="msgBox"
-                >
-                <div className="msg_head" onClick={this._show}>
-                    <div className="user-name">{friend.username}</div>
+              >
+                <div className="conversation__header" onClick={this._show}>
+                    {friend.username}
                     <CloseBtn friend={friend}/>
                 </div>
                 {messagesBody}
                 {dropzone}
                 {messageComposer}
-            </div>
+              </div>
         );
     },
 

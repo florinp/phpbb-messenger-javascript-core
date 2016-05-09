@@ -32,13 +32,9 @@ var FriendsSection = React.createClass({
       );
     }, this);
     return (
-      <div className="chat_body">
+      <ul className="chat__wrapper">
         {friendsListItems}
-        <div className="search">
-          <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/142996/elastic-srch.png" alt="" className="search-img"></img>
-          <input type="text" className="search-input" placeholder="Search" />
-        </div>
-      </div>
+      </ul>
     );
   },
 

@@ -19,7 +19,8 @@ function getStateFromStores(friendId) {
 var MessagesBody = React.createClass({
 
   propTypes: {
-    friend: ReactPropTypes.object
+    friend: ReactPropTypes.object,
+    soundStatus: ReactPropTypes.string
   },
 
   getInitialState: function () {
@@ -51,17 +52,16 @@ var MessagesBody = React.createClass({
     });
 
     return (
-      <div className="msg_wrap">
-        <div className="msg_body" ref="messagesList">
-          {messages}
-          <div className="msg_push"></div>
-        </div>
-        <Sound
-          url="./ext/florinp/messenger/styles/all/theme/sounds/receive_sound.mp3"
-          playStatus={this.soundStatus}
-          onFinishedPlaying={this._onSoundFinished}
-        />
-      </div>
+      <ul className="conversation__wrap">
+        {messages}
+        <li style={{"display": 'none'}}>
+          <Sound
+            url="./ext/florinp/messenger/styles/all/theme/sounds/receive_sound.mp3"
+            playStatus={this.soundStatus}
+            onFinishedPlaying={this._onSoundFinished}
+          />
+        </li>
+      </ul>
     );
   },
 

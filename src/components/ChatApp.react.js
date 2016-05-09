@@ -1,7 +1,11 @@
 var React = require('react');
+var $ = require('jquery');
+var classNames = require('classnames');
+
 var FriendsSection = require('./FriendsSection.react');
 var ChatBox = require('./ChatBox.react');
 var ChatBoxStore = require('../stores/ChatBoxStore');
+var ReactPropTypes = React.PropTypes;
 
 var assign = require('object-assign');
 
@@ -14,7 +18,7 @@ function getStateFromStores() {
 var ChatApp = React.createClass({
 
   getInitialState: function() {
-    return assign(getStateFromStores(), {show: true});
+    return assign(getStateFromStores(), {show: false});
   },
 
   componentDidMount: function() {
@@ -38,19 +42,18 @@ var ChatApp = React.createClass({
       );
     }, this);
 
-    var friendsSection = '';
-    if(this.state.show == true) {
-      friendsSection = <FriendsSection />
-    }
-
+    var friendsSection = <FriendsSection />
     return (
-      <div className="chat_box">
-        <div className="chat_head" onClick={this._changeStatus}>
-          <div className="title">Chat Box</div>
-          <div className="options"></div>
-        </div>
-        {friendsSection}
-        {chatBoxes}
+      <div className="chat__container">
+        <button type="button" className="chat__button" onClick={this._changeStatus}>Chat (10)</button>
+        <nav className={classNames({
+          "chat": true,
+          "show-me": this.state.show
+        })}>
+          <div className="chat__header">Users online: 10</div>
+          {friendsSection}
+          {chatBoxes}
+        </nav>
       </div>
     );
   },
@@ -63,14 +66,15 @@ var ChatApp = React.createClass({
     this.setState(assign(getStateFromStores(), {show: show}));
   },
 
-  _changeStatus: function() {
-      var show;
-      if(this.state.show == true) {
-        show = false;
-      } else {
-        show = true;
-      }
-      this.setState(assign(getStateFromStores(), {show: show}));
+  _changeStatus: function(e) {
+    var show = this.state.show ? false : true;
+    var btn = $(e.target);
+    if(show) {
+      btn.css('right', '320px');
+    } else {
+      btn.css('right', '20px');
+    }
+    this.setState(assign(getStateFromStores(), {show: show}));
   }
 
 });

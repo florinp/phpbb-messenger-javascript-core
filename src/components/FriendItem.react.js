@@ -16,15 +16,14 @@ var FriendItem = React.createClass({
     var friend = this.props.friend;
     var avatar = this.parseAvatar(friend);
     return (
-      <div className="user" onClick={this._onClick}>
-        <img src={avatar} alt="" className="user-avatar"/>
-          <span className="user-name"
-                style={{color: '#' + (friend.userColor != '' ? friend.userColor : '000')}}>{friend.username}</span>
-          <span className={classNames({
+      <li className="chat__user" onClick={this._onClick}>
+        <img className="chat__avatar" src={avatar} />
+        <span className="chat__name" style={{color: '#' + (friend.userColor != '' ? friend.userColor : '000')}}>{friend.username}</span>
+        <span className={classNames({
             'user-status': true,
             'online': friend.userStatus == 1
-          })}></span>
-      </div>
+        })}></span>
+      </li>
     );
   },
 
