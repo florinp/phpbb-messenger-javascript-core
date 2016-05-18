@@ -50,7 +50,7 @@ $trans: 0.3s ease;
 }
 
 .show-me {
-  transition: transform 0.3s ease-in-out;
+  //transition: transform 0.3s ease-in-out;
   transform: translate3d(-300px, 0, 0);
 }
 
@@ -68,7 +68,7 @@ $trans: 0.3s ease;
   height: 100%;
   width: 300px;
   box-shadow: 1px 3px 3px 1px rgba(50, 50, 50, 1);
-  transition: transform 0.3s ease-in-out;
+  //transition: transform 0.3s ease-in-out;
   z-index: $chatIndex;
 }
 
@@ -162,74 +162,23 @@ $trans: 0.3s ease;
   }
 }
 
-.conversation {
+.close__button {
+  @extend .chat-icon;
+
   position: absolute;
-  bottom: 0;
-  width: 300px;
-  height: 350px;
-  background: black;
-}
+  top: 0.5rem;
+  right: 0.3rem;
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  font-size: 1rem;
 
-.conversation__header {
-  color: #ccc;
-  padding: 15px 10px;
-  background: #343436;
-  border-top: 2px solid #FEDD31;
-  margin-bottom: 10px;
-  cursor: pointer;
-}
-
-.conversation__msg {
-  padding: 5px 10px;
-  color: white;
-  list-style-type: none;
-  font-size: 12px;
-
-  div {
-    background: white;
-    color: black;
-    display: table;
-    padding: 10px 20px;
-    border-radius: 100px;
-    float: left;
+  &:hover {
+    cursor: pointer;
   }
-}
-
-.right {
-  float: right !important;
-  background: #0ebeff !important;
-  color: white !important;
-}
-
-.chat__input {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 20px;
-  background: lighten(black, 4%);
-  border: 0;
-  outline: 0;
-  transition: 0.3s;
-  color: white;
-  box-sizing: border-box;
-
-  &:focus {
-    background: lighten(black, 7%);
+  &:before {
+    content: "\e006";
   }
-}
-
-.cf {
-  &:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-}
-
-.close-msg {
-  float: right;
-  font-size: 20px;
-  margin-top: -4px;
 }
 
 .chat_box {
@@ -371,7 +320,7 @@ $trans: 0.3s ease;
 .msg_box {
   position: fixed;
   bottom: -5px;
-  width: 250px;
+  width: 300px;
   //height: 520px;
   background-color: #fff;
   box-shadow: 0px 3px 3px 0px rgba(50, 50, 50, 0.5);
@@ -406,31 +355,12 @@ $trans: 0.3s ease;
       font-weight: 200;
     }
 
-    .close {
-      @extend .chat-icon;
-
-      position: absolute;
-      top: 0.5rem;
-      right: 0.3rem;
-      width: 32px;
-      height: 32px;
-      text-align: center;
-      font-size: 1rem;
-
-      &:hover {
-        cursor: pointer;
-      }
-      &:before {
-        content: "\e006";
-      }
-    }
-
     transition: $trans;
   }
 
   .msg_wrap {
     overflow: scroll;
-    height: 400px;
+    height: 300px;
     //padding-top: $chatHeaderHeight;
     background: darken($white, 5%);
 
@@ -549,7 +479,7 @@ $trans: 0.3s ease;
   }
 
   .msg_footer {
-    width: 250px;
+    width: 100%;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -561,7 +491,7 @@ $trans: 0.3s ease;
       height: $msgHeight;
       background: $white;
       border: none;
-      width: calc(100% - #{$msgHeight});
+      width: 100%;
       position: absolute;
       left: 0;
       top: 0;
@@ -571,6 +501,7 @@ $trans: 0.3s ease;
       padding-top: ($msgHeight/2) - 8;
       font-weight: 300;
       font-size: 12px;
+      box-sizing: border-box;
 
       &:focus {
         outline: none;

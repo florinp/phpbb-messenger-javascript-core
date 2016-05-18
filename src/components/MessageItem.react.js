@@ -14,6 +14,13 @@ var MessageItem = React.createClass({
     var response;
     var avatar;
     if(message.file) {
+      if(message.type == 'sent') {
+        avatar = this.parseAvatar(message.sender_avatar);
+      } else if(message.type == 'inbox') {
+        avatar = this.parseAvatar(message.sender_avatar);
+      }
+
+
       var routeName = "app.php/messenger/file/" + message.id;
       var msg;
       if(message.type == 'sent') {
@@ -21,19 +28,33 @@ var MessageItem = React.createClass({
       } else if(message.type == 'inbox') {
         msg = 'File received';
       }
-      response = <li className="conversation__msg cf">
-        <div className={classNames({
-          "right": message.type == 'sent'
-        })}>
-          {msg}: <a href={ routeName } target="_blank"><i className="fa fa-file-o"></i> {message.fileName}</a>
+      response = <div className={classNames({
+        'msg': true,
+        'msg_a': message.type == 'inbox' ? true : false,
+        'msg_b': message.type == 'sent' ? true : false
+      })}>
+        <div className="circle-wrapper">
+          <img src={avatar} />
         </div>
-      </li>;
+        <div className="text-wrapper">{msg}: <a href={ routeName } target="_blank"><i className="fa fa-file-o"></i> {message.fileName}</a></div>
+      </div>;
     } else if(message.text) {
-      response = <li className="conversation__msg cf">
-        <div className={classNames({
-          "right": message.type == 'sent'
-        })} dangerouslySetInnerHTML={{__html: message.text}}></div>
-      </li>;
+      if(message.type == 'sent') {
+        avatar = this.parseAvatar(message.sender_avatar);
+      } else if(message.type == 'inbox') {
+        avatar = this.parseAvatar(message.sender_avatar);
+      }
+
+      response = <div className={classNames({
+        'msg': true,
+        'msg_a': message.type == 'inbox' ? true : false,
+        'msg_b': message.type == 'sent' ? true : false
+      })}>
+        <div className="circle-wrapper">
+          <img src={avatar} />
+        </div>
+        <div className="text-wrapper" dangerouslySetInnerHTML={{__html: message.text}}></div>
+      </div>;
     }
 
     return response;
