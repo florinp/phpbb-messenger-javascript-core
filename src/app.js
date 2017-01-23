@@ -1,4 +1,3 @@
-var ChatApp = require('./components/ChatApp.react');
 var React = require('react');
 var ReactDOM = require('react-dom');
 var ChatWebApiUtils = require('./utils/ChatWebApiUtils');
@@ -6,7 +5,11 @@ window.React = React;
 
 var $ = require('jquery');
 
-ChatWebApiUtils.getFriends();
+import ChatApp from './components/ChatApp';
+
+var chatActions = require('./actions/chat');
+
+chatActions.getFriends();
 
 var resetTimer;
 var showUploadZone = function() {

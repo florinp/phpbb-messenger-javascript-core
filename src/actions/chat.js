@@ -1,5 +1,6 @@
 import axios from 'axios';
 import _ from 'underscore';
+import Dispatcher from '../dispatcher/Dispatcher';
 
 // box actions
 export const GET_BOXES = 'GET_BOXES';
@@ -37,22 +38,23 @@ export function getFriends() {
         headers: []
     });
 
-    return {
+    Dispatcher.dispatch({
         type: GET_FRIENDS,
-        payload: request
-    };
+        request: request
+    });
 }
-export function getFriendsSuccess(friends) {
-    return {
+export function getFriendsSuccess(friends, friends_online) {
+    Dispatcher.dispatch({
         type: GET_FRIENDS_SUCCESS,
-        payload: friends
-    };
+        friends: friends,
+        friends_online: friends_online
+    });
 }
 export function getFriendsFailure(error) {
-    return {
+    Dispatcher.dispatch({
         type: GET_FRIENDS_FAILURE,
-        payload: error
-    };
+        error: error
+    });
 }
 
 
@@ -128,10 +130,10 @@ export function getBoxes() {
         boxes = JSON.parse(jsonBoxes);
     }
 
-    return {
+    Dispatcher.dispatch({
         type: GET_BOXES,
-        payload: boxes
-    };
+        boxes: boxes
+    });
 }
 export function openBox(friend) {
     let jsonBoxes = window.localStorage.getItem('boxes');
@@ -140,7 +142,7 @@ export function openBox(friend) {
         boxes = JSON.parse(jsonBoxes);
     }
 
-    let boxId = `msg_${friend.user_id}`;
+    let boxId = `msg_${friend.id}`;
     let box = _.findWhere(boxes, {id: boxId});
 
     if(box === undefined) {
@@ -151,10 +153,10 @@ export function openBox(friend) {
         window.localStorage.setItem('boxes', JSON.stringify(boxes));
     }
 
-    return {
+    Dispatcher.dispatch({
         type: OPEN_BOX,
-        payload: boxes
-    };
+        boxes: boxes
+    });
 }
 export function closeBox(friend) {
     let jsonBoxes = window.localStorage.getItem('boxes');
@@ -163,7 +165,7 @@ export function closeBox(friend) {
         boxes = JSON.parse(jsonBoxes);
     }
 
-    let boxId = `msg_${friend.user_id}`;
+    let boxId = `msg_${friend.id}`;
     let box = _.findWhere(boxes, {id: boxId});
 
     if(box !== undefined) {
@@ -171,8 +173,8 @@ export function closeBox(friend) {
         window.localStorage.setItem('boxes', JSON.stringify(boxes));
     }
 
-    return {
+    Dispatcher.dispatch({
         type: CLOSE_BOX,
-        payload: boxes
-    };
+        boxes: boxes
+    });
 }

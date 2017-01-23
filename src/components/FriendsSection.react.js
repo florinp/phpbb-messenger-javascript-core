@@ -1,6 +1,8 @@
 var React = require('react');
-var FriendStore = require('../stores/FriendStore');
+// var FriendStore = require('../stores/FriendStore');
 var FriendItem = require('./FriendItem.react')
+
+import FriendStore from '../stores/FriendStore';
 
 function getStateFromStores() {
   return {
