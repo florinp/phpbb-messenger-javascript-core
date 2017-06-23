@@ -1,89 +1,113 @@
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
-var ChatConstants = require('../constants/ChatConstants');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
+import { EventEmitter } from 'events';
+import assign from 'object-assign';
 
-var ActionTypes = ChatConstants.ActionTypes;
-var CHANGE_EVENT = 'change';
+import Dispatcher from '../dispatcher/Dispatcher';
+import {
+    GET_FRIENDS,
+    GET_FRIENDS_SUCCESS,
+    GET_FRIENDS_FAILURE,
+    getFriendsSuccess,
+    getFriendsFailure
+} from '../actions/chat';
 
-var _currentID = null;
-var _friends = {};
+const CHANGE_EVENT = 'change';
+const ERROR_EVENT = 'error';
 
-var FriendStore = assign({}, EventEmitter.prototype, {
+let _currentID = null;
+let _friends = {};
+let _friendsOnline = 0;
 
-  init: function(rawFriends) {
-    rawFriends.forEach(function(friend) {
-      var friendID = friend.user_id;
-      _friends[friendID] = {
-        id: friendID,
-        username: friend.username,
-        userColor: friend.user_colour,
-        userStatus: friend.user_status,
-		    userAvatar: friend.user_avatar
-      };
-    }, this);
-  },
+let FriendStore = assign({}, EventEmitter.prototype, {
 
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
-  },
+    addData: function(friends, friendsOnline) {
+        friends.forEach((friend) => {
+            _friends[friend.user_id] = {
+                id: friend.user_id,
+                username: friend.username,
+                userColor: friend.user_colour,
+                userStatus: friend.user_status,
+                userAvatar: friend.user_avatar
+            };
+        }, this);
+        _friendsOnline = friendsOnline
+    },
 
-  /**
-   * @param {function} callback
-   */
-  addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
+    emitChange: function () {
+        this.emit(CHANGE_EVENT);
+    },
 
-  /**
-   * @param {function} callback
-   */
-  removeChangeListener: function(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
-  },
+    emitError: function(error) {
+        this.emit(ERROR_EVENT, error);
+    },
 
-  /**
-   * @param {string} id
-   */
-  get: function(id) {
-    return _friends[id];
-  },
+    addChangeListener: function(callback) {
+        this.on(CHANGE_EVENT, callback);
+    },
 
-  getAll: function() {
-    return _friends;
-  },
+    removeChangeListener: function(callback) {
+        this.removeListener(CHANGE_EVENT, callback);
+    },
 
-  getAllChrono: function() {
-    var response = [];
-    for(var id in _friends) {
-      var friend = _friends[id];
-      response.push(friend);
+    addErrorListener: function(callback) {
+        this.on(ERROR_EVENT, callback);
+    },
+
+    removeErrorListener: function(callback) {
+        this.removeListener(ERROR_EVENT, callback);
+    },
+
+    get: function (id) {
+        return _friends[id];
+    },
+
+    getAll: function () {
+        return _friends;
+    },
+
+    getAllChrono: function () {
+        let response = [];
+        for (let id in _friends) {
+            let friend = _friends[id];
+            response.push(friend);
+        }
+
+        return response;
+    },
+
+    getCurrentID: function () {
+        return _currentID;
+    },
+
+    getCurrent: function () {
+        return this.get(this.getCurrentID());
     }
 
-    return response;
-  },
+});
 
-  getCurrentID: function() {
-    return _currentID;
-  },
+FriendStore.dispatchToken = Dispatcher.register(function (action) {
 
-  getCurrent: function() {
-    return this.get(this.getCurrentID());
-  }
+    switch (action.type) {
+        case GET_FRIENDS:
+            action.request.then((response) => {
+                getFriendsSuccess(response.data.friends_list, response.data.friends_online);
+            }).catch((error) => {
+                getFriendsFailure(error);
+            });
+        break;
+
+        case GET_FRIENDS_SUCCESS:
+            FriendStore.addData(action.friends, action.friends_online);
+            FriendStore.emitChange();
+        break;
+
+        case GET_FRIENDS_FAILURE:
+            FriendStore.emitError(action.error);
+        break;
+
+        default:
+
+    }
 
 });
 
-FriendStore.dispatchToken = ChatAppDispatcher.register(function(action) {
-
-  switch (action.type) {
-    case ActionTypes.GET_FRIENDS:
-      FriendStore.init(action.friends);
-      FriendStore.emitChange();
-      break;
-    default:
-
-  }
-
-});
-
-module.exports = FriendStore;
+export default FriendStore;
