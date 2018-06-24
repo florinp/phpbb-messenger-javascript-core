@@ -12,37 +12,52 @@ var request = require('superagent');
 var $ = require('jquery');
 var ChatWebApiUtils = require('../utils/ChatWebApiUtils');
 
-var ENTER_KEY_CODE = 13;
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+
+const ENTER_KEY_CODE = 13;
 
 import { closeBox } from '../actions/chat';
 
-var CloseBtn = React.createClass({
-    propTypes: {
-        friend: ReactPropTypes.object
-    },
+class CloseBtn extends Component {
 
-    render: function () {
+    constructor(props) {
+        super(props);
+
+        this._onClick = this._onClick.bind(this);
+    }
+
+    render() {
         return (
             <div className="close__button" onClick={this._onClick}></div>
         );
-    },
+    }
 
-    _onClick: function () {
+    _onClick(evt) {
+        evt.preventDefault();
         closeBox(this.props.friend);
     }
-});
+}
+CloseBtn.propTypes = {
+    friend: PropTypes.object.isRequired
+};
 
-var MessageComposer = React.createClass({
+class MessageComposer extends Component {
 
-    propTypes: {
-        friendId: ReactPropTypes.string.isRequired
-    },
+    constructor(props) {
+        super(props);
 
-    getInitialState: function () {
-        return { text: '' };
-    },
+        this.state = {
+            text: ''
+        };
 
-    render: function () {
+        this._onChange = this._onChange.bind(this);
+        this._onClick = this._onClick.bind(this);
+        this._onKeyDown = this._onKeyDown.bind(this);
+    }
+
+    render() {
         return (
             <div className="msg_footer">
                 <textarea
@@ -56,76 +71,78 @@ var MessageComposer = React.createClass({
                 <div className="msg-send" onClick={this._onClick}></div>
             </div>
         );
-    },
+    }
 
-    _onChange: function (event, value) {
-        var text = event.target.value;
-        this.setState({ text: text });
-    },
+    _onChange(evt) {
+        const { evt: { target: { value } } } = evt;
+        this.setState({ text: value });
+    }
 
-    _onKeyDown: function (event) {
-        if (event.keyCode === ENTER_KEY_CODE) {
-            event.preventDefault();
-            var text = this.state.text.trim();
+    _onKeyDown(evt) {
+        if (evt.keyCode === ENTER_KEY_CODE) {
+            evt.preventDefault();
+            const text = this.state.text.trim();
             if (text) {
                 ChatActions.sendMessage(text, this.props.friendId);
             }
             this.setState({ text: '' });
         }
-    },
+    }
 
-    _onClick: function (event) {
-        var text = this.state.text.trim();
+    _onClick(evt) {
+        evt.preventDefault();
+
+        const text = this.state.text.trim();
         if (text) {
             ChatActions.sendMessage(text, this.props.friendId);
         }
         this.setState({ text: '' });
     }
 
-});
+}
+MessageComposer.propTypes = {
+    friendId: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]).isRequired
+};
 
-var EmoticonsBody = React.createClass({
+class ChatBox extends Component {
 
-    getInitialState: function () {
-        return { emoticons: EmoticonsStore.getAllEmoticons() };
-    },
+    constructor(props) {
+        super(props);
 
-    componentDidMount: function () {
-        EmoticonsStore.addChangeListener(this._onChange);
-    },
+        this.state = {
+            show: true
+        };
 
-    componentWillUnmount: function () {
-        EmoticonsStore.removeChangeListener(this._onChange);
-    },
 
-    render: function () {
-        var self = this;
-        var emoticons = this.state.emoticons.map(function (emoticon) {
-            return (
-                <a href="#" key={emoticon.code} data-code={emoticon.code} alt={emoticon.code} title={emoticon.code}
-                    className="emoticon" onClick={function (event) { console.log('test') } }
-                    dangerouslySetInnerHTML={{ __html: emoticon.image }}></a>
-            );
-        });
-        return (
-            <div className="smiley_tooltip">
-                {emoticons}
-            </div>
-        );
-    },
-
-    /**
-     * Event handler for 'change' events coming from the stores
-     */
-    _onChange: function () {
-        this.setState({ emoticons: EmoticonsStore.getAllEmoticons() });
-    },
-
-    _onClick: function (event) {
-        console.log(event.target);
     }
 
-});
+    componentDidMount() {
+        ChatWebApiUtils.getEmoticons();
+        MessageStore.addChangeListener(this._onChange);
+        this._scrollBottom();
+    }
+
+    componentWillUnmount() {
+        MessageStore.removeChangeListener(this._onChange);
+    }
+
+    render() {
+        const { friend, initialPos, count } = this.props;
+        const { show } = this.state;
+
+        let body, composer;
+
+    }
+
+}
+ChatBox.propTypes = {
+    friend: PropTypes.object.isRequired,
+    count: PropTypes.number.isRequired,
+    initialPos: PropTypes.number
+};
 
 var ChatBox = React.createClass({
 
